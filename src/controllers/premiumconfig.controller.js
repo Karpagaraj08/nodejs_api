@@ -7,7 +7,10 @@ async function getPremiumConfig(req, res) {
     await sql.connect(sqlConfig);
     const result = await sql.query('SELECT * FROM premiumconfig');
     if (result.recordset.length == 0) {
-      res.json({ Premiumconfig: [], Response: new Response('Failed', '333', 'GetPremiumConfig', "no Data Found") });
+      res.json({
+        Premiumconfig: [],
+        Response: new Response('Failed', '333', 'GetPremiumConfig', "no Data Found")
+      });
     }
     res.json({
       Response: new Response('success',
@@ -20,7 +23,10 @@ async function getPremiumConfig(req, res) {
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send('Database query failed');
+    res.json({
+      Premiumconfig: [],
+      Response: new Response('Failed', '999', 'GetPremiumConfig', err.message)
+    });
   } finally {
     sql.close();
   }
