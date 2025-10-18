@@ -4,16 +4,27 @@ import { Response } from '../models/response.model.js';
 
 async function getPremiumConfig(req, res) {
   try {
-    await sql.connect(sqlConfig);
-    const result = await sql.query('SELECT * FROM premiumconfig');
-    if (result.recordset.length == 0) {
+    const pool = await sql.connect(sqlConfig);
+    const request = pool.request();
+    console.log("Request Body: ", req.body);
+    if (req.body.Filter != null) {
+      for (const key in req.body.Filter) {
+        if (Object.prototype.hasOwnProperty.call(req.body.Filter, key)) {
+          const element = req.body.Filter[key];
+          request.input(key, element);
+        }
+      }
+    }
+    const result = await request.execute('GetPremiumConfigs');
+    if (result.rowsAffected == 0) {
       res.json({
         Premiumconfig: [],
         Response: new Response('Failed', '333', 'GetPremiumConfig', "no Data Found")
       });
     }
     res.json({
-      Response: new Response('success',
+      Response: new Response(
+        'success',
         '111',
         'GetPremiumConfig',
         "Data fetching successfully completed",

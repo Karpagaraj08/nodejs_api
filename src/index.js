@@ -15,13 +15,7 @@ app.use(cors());
 checkConnection();
 
 app.use('/', (req, res, next) => {
-  console.log("req", req.url)
   next();
-});
-
-app.use('/home', (req, res, next) => {
-  console.log("hello world from home routes");
-  res.send("Hello from middleware");
 });
 
 app.use('/api/Premium', premiumConfigRoutes);

@@ -1,7 +1,7 @@
 import sql from 'mssql';
 
 export const sqlConfig = {
-  server: 'localhost',
+  server: 'DESKTOP-9HU6DH7',
   port: 1433,
   database: 'MIC_betaapps',
   user: 'sa',
